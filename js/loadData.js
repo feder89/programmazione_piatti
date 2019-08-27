@@ -2,6 +2,7 @@ var primi= new Array();
 var secondi = new Array();
 var primiId=new Array();
 var secondiId=new Array();
+var contentId=new Array();
 $(document).ready(function(){
 	loadPrimi();
 	loadSecondi();
@@ -64,20 +65,27 @@ function loadSecondi(){
 
     });
 }
-
 function showData(data, el, gets){
-	$.each(data, function(index, value) {
-		var idDiv=value.tavolo+value.indice+value.portata.replace(/ /g, '')+value.idprg;
-		var _class = getColorClass();
-		$('#'+el).append('<p class="combine">'+'COMBINE N. '+value.idprg+'</p><div class="col-11 my-1 space '+_class+'" id="'+idDiv+'">'
-						+'Tav. '+value.tavolo+'/'+value.indice
-						+' '+value.portata.substring(0,20)+' n. '+value.nr
-						+'</div>');
-		if(el === "primi"){
-			primiId.push(idDiv);
-		}else{
-			secondiId.push(idDiv);
+	var arrays=_.groupBy(data, 'idprg');
+	$.each(arrays, function(index, arr) {
+		if(!_.includes(contentId, "combine-"+el+"-"+index)){
+			$('#'+el).append('<p class="combine">'+'COMBINE N. '+index+'</p>');
+			contentId.push("combine-"+el+"-"+index);
 		}
+		$.each(arr, function(idx,value){
+			var idDiv=value.tavolo+value.indice+value.portata.replace(/ /g, '')+value.idprg;
+			var _class = getColorClass();
+			$('#'+el).append('<div class="col-11 my-1 space '+_class+'" id="'+idDiv+'">'
+							+'Tav. '+value.tavolo+'/'+value.indice
+							+' '+value.portata.substring(0,20)+' n. '+value.nr
+							+'</div>');
+			if(el === "primi"){
+				primiId.push(idDiv);
+			}else{
+				secondiId.push(idDiv);
+			}
+		});
+		
 	});
 	deleteDone(gets,el);
 }

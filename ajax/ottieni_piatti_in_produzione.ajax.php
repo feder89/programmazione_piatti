@@ -24,7 +24,7 @@
 			WHERE categoria=$cat
 			AND (idprogrammazione=$idprg OR idprogrammazione=$idprg_next)
 			AND stato=2
-			GROUP BY portata, tavolo ,indice
+			GROUP BY portata, tavolo ,indice, idprogrammazione
 			ORDER BY idprogrammazione";
 
 			$result = mysqli_query($link, $query) or die("#error#".mysqli_error($link));

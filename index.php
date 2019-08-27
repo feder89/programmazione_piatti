@@ -23,13 +23,16 @@
     <div class="row text-center">
       <div class="col" style="border-right: 1px solid black;">
         <h3>PRIMI</h3>
-        <div class="row" id="primi"></div>
+        
         
       </div>
       <div class="col" style="border-left: 1px solid black;">
         <h3>SECONDI</h3>
-        <div class="row" id="secondi"></div>
+        
       </div>
+	  <div class="col-12" id="content"></div>
+	  <div class="col" style="border-left: 1px solid black;"><div class="row" id="primo"></div></div>
+	  <div class="col" style="border-left: 1px solid black;"><div class="row" id="secondo"></div></div>
     </div>
 
 

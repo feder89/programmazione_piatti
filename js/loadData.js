@@ -4,14 +4,40 @@ var primiId=new Array();
 var secondiId=new Array();
 var contentId=new Array();
 $(document).ready(function(){
-	loadPrimi();
+	/*loadPrimi();
 	loadSecondi();
 
 	setInterval(loadPrimi, 5000);
     setInterval(loadSecondi, 5000);
+	*/
+	loadData();
+
+	setInterval(loadData, 5000);
 	
 });
+function loadData(){
+	$.ajax({
+        type: "GET",
+        url: "ajax/ottieni_piatti_in_produzione.ajax.php",
+        dataType:"json",        
+        timeout: 4000,
+        success:function(response){
+            if (response) {
+            	//deleteDone(response, "primi");
+            	/*var temp=_.differenceWith(response,primi, _.isEqual);
+            	if(!$.isEmptyObject(temp)){
+            		primi = response;
+            	}*/ 
 
+                showData(response);
+            }
+            else {
+                // Process the expected results...
+            }
+        }
+
+    });
+}	
 function loadPrimi(){
 	$.ajax({
         type: "GET",
@@ -65,33 +91,35 @@ function loadSecondi(){
 
     });
 }
-function showData(data, el, gets){
+function showData(data){
 	var arrays=_.groupBy(data, 'idprg');
+	var gets=new Array();
 	$.each(arrays, function(index, arr) {
-		if(!_.includes(contentId, "combine-"+el+"-"+index)){
-			$('#'+el).append('<p class="combine">'+'COMBINE N. '+index+'</p>');
-			contentId.push("combine-"+el+"-"+index);
-		}
+		$('#content').empty();
+		$('#content').append('<p class="combine">'+'COMBINE N. '+index+'</p>');
+		
+		
+		
 		$.each(arr, function(idx,value){
 			var idDiv=value.tavolo+value.indice+value.portata.replace(/ /g, '')+value.idprg;
-			var _class = getColorClass();
-			$('#'+el).append('<div class="col-11 my-1 space '+_class+'" id="'+idDiv+'">'
-							+'Tav. '+value.tavolo+'/'+value.indice
-							+' '+value.portata.substring(0,20)+' n. '+value.nr
-							+'</div>');
-			if(el === "primi"){
-				primiId.push(idDiv);
-			}else{
-				secondiId.push(idDiv);
-			}
-		});
+			gets.push(idDiv);
+			if(!_.includes(contentId, idDiv)){
+				var _class = getColorClass();
+				$('#'+value.cat).append('<div class="col-11 my-1 space '+_class+'" id="'+idDiv+'">'
+								+'Tav. '+value.tavolo+'/'+value.indice
+								+' '+value.portata.substring(0,20)+' n. '+value.nr
+								+'</div>');
+				contentId.push(idDiv);		
+			}			
+		});		
 		
 	});
-	deleteDone(gets,el);
+	var toRemove = _.difference(contentId, gets); 
+	//deleteDone(gets,el);
 }
 
-function deleteDone(data, cat){
-	var temp=new Array();
+function deleteDone(data){
+	/*var temp=new Array();
 	$.each(data, function(index, value){
 		var idDiv=value.tavolo+value.indice+value.portata.replace(/ /g, '')+value.idprg;
 		temp.push(idDiv);
@@ -106,6 +134,9 @@ function deleteDone(data, cat){
 
 	$.each(divIds, function(index, divId){
 		$('#'+divId).remove();
+	});*/
+	$.each(data, function(index, value){
+		$('#'+value).remove();
 	});
 }
 

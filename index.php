@@ -30,9 +30,9 @@
         <h3>SECONDI</h3>
         
       </div>
-	  <div class="col-12" id="content"></div>
-	  <div class="col" style="border-left: 1px solid black;"><div class="row" id="primo"></div></div>
-	  <div class="col" style="border-left: 1px solid black;"><div class="row" id="secondo"></div></div>
+  	  <div class="col-12" id="content"></div>
+  	  <div class="col" style="border-left: 1px solid black;"><div class="row" id="primo"></div></div>
+  	  <div class="col" style="border-left: 1px solid black;"><div class="row" id="secondo"></div></div>
     </div>
 
 

@@ -22,7 +22,7 @@
 			WHERE idprogrammazione=$idprg 
 			AND stato=2
 			GROUP BY portata, tavolo ,indice, idprogrammazione
-			ORDER BY idprogrammazione";
+			ORDER BY idprogrammazione, tavolo, portata";
 
 			$result = mysqli_query($link, $query) or die("#error#".mysqli_error($link));
 		    while ($row = mysqli_fetch_assoc($result)) {

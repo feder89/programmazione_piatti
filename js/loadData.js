@@ -42,7 +42,10 @@ function showData(data){
 			var idDiv=value.tavolo+value.indice+value.portata.replace(/ /g, '')+value.idprg;
 			gets.push(idDiv);
 			if(!_.includes(contentId, idDiv)){
-				var _class = getColorClass();
+				var _class = 'blue';
+				if(value.tavolo<200){
+					_class = 'yellow';
+				}
 				$('#'+value.cat).append('<div class="col-11 my-1 space '+_class+'" id="'+idDiv+'">'
 								+'Tav. '+value.tavolo+'/'+value.indice
 								+' '+value.portata.substring(0,20)+' n. '+value.nr

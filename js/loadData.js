@@ -9,7 +9,16 @@ $(document).ready(function(){
 
 	setInterval(loadData, 5000);
 	
+	
+	
 });
+
+function reload(){
+	setTimeout("location.reload(true);", 60000);
+}
+
+window.onload=reload();
+
 function loadData(){
 	$.ajax({
         type: "GET",

@@ -17,7 +17,7 @@
 	    	$query="SELECT *,COUNT(id) AS nr FROM programmazioneordini 
 			WHERE idprogrammazione=$idprg_next
 			AND stato=2
-			GROUP BY portata,idprogrammazione
+			GROUP BY portata, tavolo ,indice, idprogrammazione
 			ORDER BY portata";
 
 			$result = mysqli_query($link, $query) or die("#error#".mysqli_error($link));

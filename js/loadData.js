@@ -22,13 +22,16 @@ window.onload=reload();
 function loadData(){
 	$.ajax({
         type: "GET",
-        url: "ajax/ottieni_piatti_in_produzione.ajax.php",
+        url: "ajax/ottieni_piatti_in_produzione_incorso.ajax.php",
         dataType:"json",        
         timeout: 4000,
         success:function(response){
             if (response) {
 
-                showData(response);
+                showData(response,'incorso');
+                if(response.length > 0){
+                	loadDataNext(parseInt(response[0].idprg)+1);
+                }
             }
             else {
                 // Process the expected results...
@@ -38,34 +41,61 @@ function loadData(){
     });
 }	
 
-function showData(data){
+function loadDataNext(index){
+	$.ajax({
+        type: "GET",
+        url: "ajax/ottieni_piatti_in_produzione_next.ajax.php",
+        dataType:"json",        
+        timeout: 4000,
+        data:{
+        	index: index
+        },
+        success:function(response){
+            if (response) {
+
+                showData(response,'next');
+                	
+            }
+            else {
+                // Process the expected results...
+            }
+        }
+
+    });
+}
+
+function showData(data,time){
+	$('#content-'+time).empty();
+	$('#primo-'+time).empty();
+	$('#secondo-'+time).empty();
 	var arrays=_.groupBy(data, 'idprg');
 	var gets=new Array();
 	$.each(arrays, function(index, arr) {
-		$('#content').empty();
-		$('#content').append('<p class="combine">'+'COMBINE N. '+index+'</p>');
 		
+		$('#content-'+time).append('<p class="combine">'+'COMBINE N. '+index+'</p>');
+		
+
 		
 		
 		$.each(arr, function(idx,value){
 			var idDiv=value.tavolo+value.indice+value.portata.replace(/ /g, '')+value.idprg;
 			gets.push(idDiv);
-			if(!_.includes(contentId, idDiv)){
+			//if(!_.includes(contentId, idDiv)){
 				var _class = 'blue';
 				if(value.tavolo<200){
 					_class = 'yellow';
 				}
-				$('#'+value.cat).append('<div class="col-11 my-1 space '+_class+'" id="'+idDiv+'">'
+				$('#'+value.cat+'-'+time).append('<div class="col-11 my-1 space '+_class+'" id="'+idDiv+'">'
 								+'Tav. '+value.tavolo+'/'+value.indice
 								+' '+value.portata.substring(0,20)+' n. '+value.nr
 								+'</div>');
 				contentId.push(idDiv);		
-			}			
+			//}			
 		});		
 		
 	});
-	var toRemove = _.difference(contentId, gets); 
-	deleteDone(toRemove);
+	/*var toRemove = _.difference(contentId, gets); 
+	deleteDone(toRemove);*/
 }
 
 function deleteDone(data){

@@ -6,7 +6,7 @@
     	$idprg=$_GET['index'];
     	$idprg_next=0;
     	$query_next_idprg="SELECT min(idprogrammazione) as minid FROM programmazioneordini 
-	    					WHERE stato = 2 AND idprogrammazione>$idprg";
+	    					WHERE stato = 2 AND idprogrammazione>=$idprg";
 		
 			$result_idprog_next = mysqli_query($link, $query_next_idprg) or die("#error#".mysqli_error($link));
 		    while ($row_idprg_next = mysqli_fetch_assoc($result_idprog_next)) {

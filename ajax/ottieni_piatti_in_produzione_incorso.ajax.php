@@ -2,6 +2,11 @@
 	require_once '../include/core.inc.php';
 	$link=connectToDb();
 	$portate=array();
+	$date=ottieni_data_serata_attuale();
+    if($date <=0){
+        $comanda=array('error' => '#error#Errore durante l\'acquisizione della data');
+    }
+    else{
 		$idprg=0;
 		$idprg_next=0;
 		$query_idprog="SELECT min(idprogrammazione) as idprg FROM programmazioneordini WHERE stato = 2";
@@ -19,7 +24,7 @@
 		}*/
 	    if($idprg>0){
 	    	$query="SELECT *,COUNT(id) AS nr FROM programmazioneordini 
-			WHERE idprogrammazione=$idprg 
+			WHERE idprogrammazione=$idprg AND serata='$date'
 			AND stato=2
 			GROUP BY portata, tavolo ,indice, idprogrammazione
 			ORDER BY idprogrammazione, tavolo, portata";
@@ -34,8 +39,7 @@
 											'cat' => $row['categoria']));
 		    }  
 	    }
-		
-
+	}
 	disconnetti_mysql($link, NULL); #visto che non ho un result_set gli passo NULL.. nella funzione in core.in.php ho aggiunto il controllo
 
 	echo json_encode($portate);
